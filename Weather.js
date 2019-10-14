@@ -1,7 +1,7 @@
 import React from "react";
 import ProTypes from "prop-types";
 
-import{ StyleSheet, Text, View} from "react-native";
+import{ StyleSheet, Text, View, StatusBar } from "react-native";
 import { MaterialCommunityIcons } from  '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 
@@ -12,24 +12,43 @@ Weather.propTypes = {
           "Drizzle",
           "Rain",
           "Snow",
-          "Atmosphere",
+          // "Atmosphere",
           "Clear",
           "Clouds",
-          "Fog"
+          "Fog",
+          "Haze"
      ]).isRequired
-} 
+};
 
-export default function Weather({temp}){
+const weatherOptions = {
+     Thunderstorm: { iconName: "weather-lightning", gradient:["#11998e","#38ef7d"]  }, 
+     Drizzle: { iconName: "weather-rainy", gradient:["#DA4453","#89216B"]  }, 
+     Rain: { iconName: "weather-pouring", gradient:["#333333","#dd1818"]  }, 
+     Snow: { iconName: "weather-hail", gradient:["#a8c0ff","#3f2b96"]  }, 
+     // Atmosphere: { iconName: "" }, 
+     Clear: { iconName: "weather-sunny",gradient:["#D66D75","#E29587"]  }, 
+     Clouds: { iconName: "weather-cloudy", gradient:["#00b09b","#96c93d"]  },
+     Fog: { iconName: "weather-fog", gradient:["#22c1c3","#fdbb2d"]  },
+     Haze: { iconName: "weather-fog", gradient:["#fc4a1a","#f7b733"]  }
+};
+
+export default function Weather({ temp, condition }){
      return (
           <LinearGradient
-               colors={['#4c669f', '#3b5998', '#192f6a']}
+               colors={weatherOptions[condition].gradient}
                style={styles.container}>
-
+               <StatusBar barStyle="light-content" />
                <View style={styles.halfcontainer}>
-                    <MaterialCommunityIcons size={96} name="weather-lightning-rainy" />
+                    <MaterialCommunityIcons 
+                    size={96} 
+                    name={weatherOptions[condition].iconName || "weather-sunset"} 
+                    color="white"
+                    />
                     <Text style={styles.temp}> {temp}º</Text>
                </View>
-               <View style={styles.halfcontainer}/>
+               <View style={styles.halfcontainer}>
+                    <Text>adfafds</Text>
+               </View>
           </LinearGradient>
      );
  }
@@ -46,7 +65,8 @@ export default function Weather({temp}){
           alignItems: "center"
      },
      temp: {
+
           fontSize: 42,
-          color: "black"
+          color: "white"
      }
  });
